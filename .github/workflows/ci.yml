@@ -66,9 +66,7 @@ jobs:
           fi
       - name: Update values
         run: |
-          IMAGE=${{ steps.meta.outputs.tags }}-${{  github.sha }}
-          yq e '.services.nodejs.image = "ghcr.io/smerlos/poc-portainer-gitops:$IMAGE-nodejs" | .services.php.image = "ghcr.io/smerlos/poc-portainer-gitops:$IMAGE"' -i app/docker-compose.yml
-          yq eval ".image.full = \"$IMAGE_TAG-php\"" -i app/docker-compose.yml
+          yq e '.services.nodejs.image = "ghcr.io/smerlos/poc-portainer-gitops:${{ steps.meta.outputs.tags }}-${{  github.sha }}-nodejs" | .services.php.image = "ghcr.io/smerlos/poc-portainer-gitops:${{ steps.meta.outputs.tags }}-${{  github.sha }}-php"' -i app/docker-compose.yml
 
       - name: Use Node.js
         uses: actions/setup-node@v4
