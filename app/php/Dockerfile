@@ -14,7 +14,7 @@ COPY --from=deps /app/vendor /usr/src/myapp/vendor/
 RUN mkdir -p /usr/src/myapp/public
 
 # Exponer puerto
-EXPOSE 3000
+EXPOSE 3001
 
 # Ejecutar PHP embebido
-CMD ["php", "-S", "0.0.0.0:3000", "-t", "/usr/src/myapp"]
+CMD ["php", "-S", "0.0.0.0:3001", "-t", "/usr/src/myapp"]

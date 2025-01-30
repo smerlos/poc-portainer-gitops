@@ -48,6 +48,6 @@ EXPOSE ${APP_PORT}
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 CMD curl -f http:#localhost:${APP_PORT}/health || exit 1
 
 # Set tini as entrypoint for better process handling
-ENTRYPOINT ["/bin/tini", "--"]
+ENTRYPOINT ["/sbin/tini", "--"]
 
 CMD ["node", "index.js"]
