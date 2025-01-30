@@ -42,3 +42,42 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}-${{  github.sha }}-${{ matrix.app }}
           labels: ${{ steps.meta.outputs.labels }}l
+  semantic_release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      attestations: write
+      id-token: write
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      - name: Install yq
+        run: |
+          if ! command -v yq &> /dev/null; then
+            wget -O ./yq https://github.com/mikefarah/yq/releases/download/v4.34.1/yq_linux_amd64
+            chmod +x ./yq
+            sudo mv ./yq /usr/local/bin/yq
+          fi
+      - name: Update values
+        run: |
+          IMAGE=${{ steps.meta.outputs.tags }}-${{  github.sha }}
+          yq e '.services.nodejs.image = "ghcr.io/smerlos/poc-portainer-gitops:$IMAGE-nodejs" | .services.php.image = "ghcr.io/smerlos/poc-portainer-gitops:$IMAGE"' -i app/docker-compose.yml
+          yq eval ".image.full = \"$IMAGE_TAG-php\"" -i app/docker-compose.yml
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+      - name: Run semantic release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HUSKY: 0
+        run: |-
+          npm install --save-dev @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/git @semantic-release/release-notes-generator semantic-release
+          npx semantic-releases
