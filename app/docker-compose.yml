@@ -1,0 +1,33 @@
+---
+networks:
+  backend:
+    external: true
+services:
+  nodejs:
+    container_name: nodejs
+    image: ghcr.io/smerlos/poc-portainer-gitops:main-105bab36561685947447b57ad197d43c7646e18f-nodejs
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.nodejs.loadbalancer.server.port: "3000"
+      traefik.http.services.nodejs.loadbalancer.server.scheme: "http"
+      traefik.http.routers.nodejs-https.entrypoints: "websecure"
+      traefik.http.routers.nodejs-https.rule: "Host(`nodejs.mamonfactory.online`)"
+      traefik.http.routers.nodejs-https.tls: "true"
+      traefik.http.routers.nodejs-https.tls.certresolver: "cloudflare"
+    restart: unless-stopped
+    networks:
+      - backend
+  php:
+    container_name: php
+    image: ghcr.io/smerlos/poc-portainer-gitops:main-105bab36561685947447b57ad197d43c7646e18f-php
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.php.loadbalancer.server.port: "3001"
+      traefik.http.services.php.loadbalancer.server.scheme: "http"
+      traefik.http.routers.php-https.entrypoints: "websecure"
+      traefik.http.routers.php-https.rule: "Host(`php.mamonfactory.online`)"
+      traefik.http.routers.php-https.tls: "true"
+      traefik.http.routers.php-https.tls.certresolver: "cloudflare"
+    restart: unless-stopped
+    networks:
+      - backend
