@@ -79,5 +79,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HUSKY: 0
         run: |-
+          npm install npm@latest -g
+          npm init --f
           npm install --save-dev @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/git @semantic-release/release-notes-generator semantic-release
           npx semantic-releases
