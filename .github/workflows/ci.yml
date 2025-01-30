@@ -81,5 +81,5 @@ jobs:
         run: |-
           npm install npm@latest -g
           npm init --f
-          npm install --save-dev @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/git @semantic-release/release-notes-generator semantic-release
-          npx semantic-releases
+          npm install --save-dev @semantic-release/git semantic-release @semantic-release/commit-analyzer
+          npx semantic-release
