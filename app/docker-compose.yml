@@ -31,5 +31,3 @@ services:
     restart: unless-stopped
     networks:
       - backend
-image:
-  full: -php
