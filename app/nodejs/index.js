@@ -6,7 +6,7 @@ const path = require("path");
 const pino = require("pino");
 
 const app = express();
-const PORT = process.env.APP_PORT || 3000;
+const PORT = process.env.APP_PORT || 3003;
 const logger = pino();
 
 // Collect default Prometheus metrics
