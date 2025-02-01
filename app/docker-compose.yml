@@ -5,7 +5,7 @@ networks:
 services:
   nodejs:
     container_name: nodejs
-    image: ghcr.io/smerlos/poc-portainer-gitops:main-57dd3ca33be618af12c1c31606f49d23599e1789-nodejs
+    image: ghcr.io/smerlos/poc-portainer-gitops:main-07989cb80d3fe6fc878926e191459a93e5045874-nodejs
     labels:
       traefik.enable: "true"
       traefik.http.services.nodejs.loadbalancer.server.port: "3003"
@@ -19,7 +19,7 @@ services:
       - backend
   php:
     container_name: php
-    image: ghcr.io/smerlos/poc-portainer-gitops:main-57dd3ca33be618af12c1c31606f49d23599e1789-php
+    image: ghcr.io/smerlos/poc-portainer-gitops:main-07989cb80d3fe6fc878926e191459a93e5045874-php
     labels:
       traefik.enable: "true"
       traefik.http.services.php.loadbalancer.server.port: "3001"
